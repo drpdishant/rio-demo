@@ -1,8 +1,7 @@
-FROM cibuilds/hugo AS assetbuilder
-ARG AFTERDARK_VERS=9.1.0
+FROM skyscrapers/hugo:0.46
 COPY . /tmp/site
-RUN ["hugo","-d","/var/www","-s","/tmp/site"]
+RUN hugo -d /var/www -s /tmp/site
 ##
-FROM nginx:alpine
+FROM nginx
+RUN rm -rf /usr/share/nginx/html
 COPY --from=0 /var/www /usr/share/nginx/html
-RUN rm -rf /var/www /tmp/site
